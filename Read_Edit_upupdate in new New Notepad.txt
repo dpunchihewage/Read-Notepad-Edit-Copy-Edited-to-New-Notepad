@@ -1,0 +1,40 @@
+ini_file_path = r"C:\Users\xxxxxx\Desktop\INI.txt"
+edited_file_path = r"C:\Users\xxxxxx\Desktop\INI edited.txt"
+
+# Read the contents of the INI file
+with open(ini_file_path, "r") as ini_file:
+    contents = ini_file.read()
+
+# Split the contents by line
+lines = contents.split("\n")
+
+# Ask the user to input the new values
+new_values = {}
+print("Enter new values in the format 'name = value', separated by new lines. Press Enter when finished:")
+user_input = input()
+while user_input:
+    name_value = user_input.split("=")
+    if len(name_value) != 2:
+        print("Invalid input. Please enter values in the format 'name = value'.")
+        user_input = input()
+        continue
+    name = name_value[0].strip()
+    value = name_value[1].strip()
+    new_values[name] = value
+    user_input = input()
+
+# Update the lines with the new values
+for i, line in enumerate(lines):
+    name_value = line.split("=")
+    if len(name_value) != 2:
+        continue
+    name = name_value[0].strip()
+    value = name_value[1].strip()
+    if name in new_values:
+        value = new_values[name]
+    lines[i] = f"{name} = {value}"
+
+# Write the updated contents to the edited file
+with open(edited_file_path, "w") as edited_file:
+    edited_file.write("\n".join(lines))
+
